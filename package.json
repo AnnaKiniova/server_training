@@ -19,6 +19,7 @@
   "homepage": "https://github.com/AnnaKiniova/server_training#readme",
   "dependencies": {},
   "devDependencies": {
+    "eslint-config-airbnb": "^18.1.0",
     "nodemon": "^2.0.2"
   }
 }

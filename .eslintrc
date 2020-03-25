@@ -1,0 +1,24 @@
+{
+    "settings": {},
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {},
+        "ecmaVersion": 2018
+    },
+    "parser": "babel-eslint",
+    "plugins": [
+        "react"
+    ],
+    "rules": {},
+    "extends": [
+        "eslint:recommended"
+    ]
+}
