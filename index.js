@@ -1,22 +1,20 @@
 const http = require("http");
-//const url = require("url");
 
 const { users } = require("./users.js");
-const { errors } = require("./error.js");
+const { httpStatus } = require("./status.js");
 
+const port = 8080;
 const server = http.createServer((request, response) => {
   if (request.method === "GET") {
-    // const urlParsed = url.parse(request.url);
-    // console.log(urlParsed);
     const pathName = request.url.split("/");
-    console.log(pathName);
+    // console.log(pathName);
 
     switch (pathName[1]) {
       case "users":
         response.writeHead(200, { "Content-Type": "application/json" });
         response.write(JSON.stringify(users));
         break;
-      case "user": {
+      case "user":
         if (pathName[2]) {
           const user = users.find(el => el.id === parseInt(pathName[2]));
           if (user) {
@@ -25,17 +23,22 @@ const server = http.createServer((request, response) => {
             response.write(JSON.stringify({ name, description }));
           } else {
             response.writeHead(404, { "Content-Type": "text/html" });
-            response.write(JSON.stringify(errors[404]));
+            response.write(JSON.stringify(httpStatus[404]));
           }
         } else {
           response.writeHead(400, { "Content-Type": "text/html" });
-          response.write(JSON.stringify(errors[400]));
+          response.write(JSON.stringify(httpStatus[400]));
         }
         break;
-      }
+      case "":
+        response.writeHead(200, { "Content-Type": "text/html" });
+        response.write(`server listens on port ${port}`);
+        break;
+
       default: {
-        response.writeHead(404, { "Content-Type": "text/html" });
-        response.write(JSON.stringify(errors[404]));
+        response.writeHead(400, { "Content-Type": "text/html" });
+        response.write(JSON.stringify(httpStatus[400]));
+        break;
       }
     }
   } else {
@@ -43,4 +46,4 @@ const server = http.createServer((request, response) => {
   }
   response.end();
 });
-server.listen(8080);
+server.listen(port);
