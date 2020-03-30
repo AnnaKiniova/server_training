@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "index": "nodemon index.js",
-    "expr": "nodemon express_server.js"
+    "index": "nodemon ./src/index.js",
+    "expr": "nodemon ./src/express_server.js"
   },
   "repository": {
     "type": "git",

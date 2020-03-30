@@ -9,17 +9,18 @@ const port = 3000;
 server.get("/", (request, response) => {
   response.send(`server listens on port ${port}`);
 });
-server.get("/user/:id", (request, response) => {
+server.get("/users/:id", (request, response) => {
   let userId = request.param(["id"]);
   let user = users.find(el => el.id === +userId);
   if (user) {
     response.json({ name: user.name, description: user.description });
   } else {
+    response.statusCode = 404;
     response.json(httpStatus[404]);
   }
 });
 
-server.get("/users", (request, response) => {
+server.get("*", (request, response) => {
   response.json(users);
 });
 

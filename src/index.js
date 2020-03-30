@@ -11,11 +11,10 @@ const server = http.createServer((request, response) => {
 
     switch (pathName[1]) {
       case "users":
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.write(JSON.stringify(users));
-        break;
-      case "user":
-        if (pathName[2]) {
+        if (!pathName[2]) {
+          response.writeHead(200, { "Content-Type": "application/json" });
+          response.write(JSON.stringify(users));
+        } else {
           const user = users.find(el => el.id === parseInt(pathName[2]));
           if (user) {
             response.writeHead(200, { "Content-Type": "application/json" });
@@ -25,10 +24,11 @@ const server = http.createServer((request, response) => {
             response.writeHead(404, { "Content-Type": "text/html" });
             response.write(JSON.stringify(httpStatus[404]));
           }
-        } else {
-          response.writeHead(400, { "Content-Type": "text/html" });
-          response.write(JSON.stringify(httpStatus[400]));
         }
+        // } else {
+        //   response.writeHead(400, { "Content-Type": "text/html" });
+        //   response.write(JSON.stringify(httpStatus[400]));
+        // }
         break;
       case "":
         response.writeHead(200, { "Content-Type": "text/html" });
