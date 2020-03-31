@@ -2,6 +2,7 @@ const express = require("express");
 
 const { users } = require("./users.js");
 const { httpStatus } = require("./status.js");
+const parse = require("body-parser");
 
 const server = express();
 const port = 3000;
@@ -20,8 +21,11 @@ server.get("/users/:id", (request, response) => {
   }
 });
 
-server.get("*", (request, response) => {
+server.get("/users", (request, response) => {
   response.json(users);
 });
+// server.post("/users", (request. response) =>{
+
+// })
 
 server.listen(port);
