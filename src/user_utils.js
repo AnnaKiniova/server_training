@@ -1,6 +1,20 @@
 const joi = require("@hapi/joi");
 
-exports.getId = users => {
+exports.createUser = (reqBody, users) => {
+  console.log("in val 1");
+  console.log(reqBody, users);
+  if (validateData(reqBody)) {
+    console.log("in val 2");
+    const newUser = reqBody;
+    newUser.id = getId(users);
+    users.push(newUser);
+    console.log(users);
+    return true;
+  }
+  return false;
+};
+
+const getId = users => {
   let max = 0;
   users.map(key => {
     if (parseInt(key.id) > max) {
@@ -10,7 +24,7 @@ exports.getId = users => {
   return max + 1;
 };
 
-exports.validateData = input => {
+const validateData = input => {
   const schema = joi.object({
     name: joi.string().required(),
     description: joi.string().required()

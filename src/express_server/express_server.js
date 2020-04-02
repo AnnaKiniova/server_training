@@ -2,8 +2,7 @@ const express = require("express");
 
 const { users } = require("../users.js");
 const { httpStatus } = require("../status.js");
-
-const { getId, validateData } = require("../user_utils");
+const { createUser } = require("../user_utils");
 
 const server = express();
 const port = 3000;
@@ -29,11 +28,7 @@ server.get("/users", (request, response) => {
 });
 
 server.post("/users", (req, resp) => {
-  if (validateData(req.body)) {
-    const newUser = req.body;
-    newUser.id = getId(users);
-    users.push(newUser);
-    console.log(users);
+  if (createUser(req.body, users)) {
     resp.statusCode = 201;
     resp.send(JSON.stringify(users));
   } else {

@@ -5,7 +5,7 @@ const fs = require("fs");
 const { users } = require("../users.js");
 const { httpStatus } = require("../status.js");
 // const parser = require("body-parser");
-const { getId, validateData } = require("../user_utils");
+const { createUser } = require("../user_utils");
 
 const port = 8080;
 
@@ -18,6 +18,10 @@ const server = http.createServer((request, response) => {
           response.writeHead(200, { "Content-Type": "application/json" });
           response.write(JSON.stringify(users));
         } else {
+          if (pathName[3]) {
+            response.writeHead(400, { "Content-Type": "text/html" });
+            response.write(JSON.stringify(httpStatus[400]));
+          }
           const user = users.find(el => el.id === parseInt(pathName[2]));
           if (user) {
             response.writeHead(200, { "Content-Type": "application/json" });
@@ -41,10 +45,7 @@ const server = http.createServer((request, response) => {
           body += chunk.toString();
         });
         request.on("end", () => {
-          const newUser = JSON.parse(body);
-          if (validateData(newUser)) {
-            newUser.id = getId(users);
-            users.push(newUser);
+          if (createUser(JSON.parse(body), users)) {
             response.writeHead(201, { "Content-Type": "text/html" });
             response.end(JSON.stringify(users));
           } else {
