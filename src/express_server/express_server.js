@@ -1,7 +1,7 @@
 const express = require("express");
 
-const { users } = require("./users.js");
-const { httpStatus } = require("./status.js");
+const { users } = require("../users.js");
+const { httpStatus } = require("../status.js");
 const parse = require("body-parser");
 
 const server = express();

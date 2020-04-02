@@ -2,10 +2,10 @@ const http = require("http");
 const fs = require("fs");
 // let usersJSON = fs.createReadStream("./users.json");
 // let users = JSON.parse(usersJSON.users);
-const { users } = require("./users.js");
-const { httpStatus } = require("./status.js");
+const { users } = require("../users.js");
+const { httpStatus } = require("../status.js");
 // const parser = require("body-parser");
-const { getId, validateData } = require("./post");
+const { getId, validateData } = require("../user_utils");
 
 const port = 8080;
 
@@ -15,7 +15,6 @@ const server = http.createServer((request, response) => {
     case "users":
       if (request.method === "GET") {
         if (!pathName[2]) {
-          console.log(pathName[2]);
           response.writeHead(200, { "Content-Type": "application/json" });
           response.write(JSON.stringify(users));
         } else {
