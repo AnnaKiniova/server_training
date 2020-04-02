@@ -2,10 +2,13 @@ const express = require("express");
 
 const { users } = require("../users.js");
 const { httpStatus } = require("../status.js");
-const parse = require("body-parser");
+
+const { getId, validateData } = require("../user_utils");
 
 const server = express();
 const port = 3000;
+
+server.use(express.json());
 
 server.get("/", (request, response) => {
   response.send(`server listens on port ${port}`);
@@ -24,8 +27,19 @@ server.get("/users/:id", (request, response) => {
 server.get("/users", (request, response) => {
   response.json(users);
 });
-// server.post("/users", (request. response) =>{
 
-// })
+server.post("/users", (req, resp) => {
+  if (validateData(req.body)) {
+    const newUser = req.body;
+    newUser.id = getId(users);
+    users.push(newUser);
+    console.log(users);
+    resp.statusCode = 201;
+    resp.send(JSON.stringify(users));
+  } else {
+    resp.statusCode = 400;
+    resp.send("error");
+  }
+});
 
 server.listen(port);
